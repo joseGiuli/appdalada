@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await context
           .read<AuthFirebaseService>()
-          .registrar(email.text, senha.text);
+          .registrar(email.text, senha.text, nome.text);
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message),
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
                         child: Material(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(10),
                           //color: Colors.blueGrey[50],
                           elevation: 5,
                           //shadowColor: Colors.black,
@@ -141,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
                       child: Material(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(10),
                         //color: Colors.blueGrey[50],
                         elevation: 5,
                         //shadowColor: Colors.black,
@@ -171,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                       child: Material(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(10),
                         //color: Colors.blueGrey[50],
                         elevation: 5,
                         //shadowColor: Colors.black,

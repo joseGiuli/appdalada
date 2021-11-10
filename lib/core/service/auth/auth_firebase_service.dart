@@ -10,6 +10,7 @@ class AuthException implements Exception {
 
 class AuthFirebaseService extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   User? usuario;
   Usuario? user;
   bool isLoading = true;
@@ -26,9 +27,10 @@ class AuthFirebaseService extends ChangeNotifier {
     });
   }
 
-  registrar(String email, String senha) async {
+  registrar(String email, String senha, String nome) async {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: senha);
+      await _auth.currentUser!.updateDisplayName(nome);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw AuthException('A senha é muito fraca!');
