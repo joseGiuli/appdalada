@@ -8,7 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class UserRegisterNascimentoPage extends StatefulWidget {
-  const UserRegisterNascimentoPage({Key? key}) : super(key: key);
+  final String? docRef;
+  UserRegisterNascimentoPage({this.docRef});
 
   @override
   _UserRegisterNascimentoPageState createState() =>
@@ -28,12 +29,18 @@ class _UserRegisterNascimentoPageState
     final isValid = _formKey.currentState!.validate();
 
     if (isValid) {
-      firebase.firestore.collection('users').doc(firebase.usuario?.uid).update({
+      firebase.firestore.collection('users').doc(widget.docRef).update({
         'data_nascimento': _data.text,
       });
 
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => UserRegisterSobrePage()));
+        context,
+        MaterialPageRoute(
+          builder: (_) => UserRegisterSobrePage(
+            docRef: widget.docRef,
+          ),
+        ),
+      );
     }
   }
 

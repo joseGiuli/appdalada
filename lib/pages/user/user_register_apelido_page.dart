@@ -23,18 +23,24 @@ class _UserRegisterApelidoPageState extends State<UserRegisterApelidoPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _apelido = TextEditingController();
 
-  _onSubmit() {
+  _onSubmit() async {
     AuthFirebaseService firebase =
         Provider.of<AuthFirebaseService>(context, listen: false);
     final isValid = _formKey.currentState!.validate();
 
     if (isValid) {
-      firebase.firestore.collection('users').doc(firebase.usuario?.uid).set({
+      final docRef = await firebase.firestore.collection('users').add({
         'apelido': _apelido.text,
       });
 
-      Navigator.push(context,
-          MaterialPageRoute(builder: (_) => UserRegisterNascimentoPage()));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => UserRegisterNascimentoPage(
+            docRef: docRef.id,
+          ),
+        ),
+      );
     }
   }
 
