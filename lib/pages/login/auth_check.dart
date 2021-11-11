@@ -4,7 +4,7 @@ import 'package:appdalada/core/service/auth/auth_firebase_service.dart';
 import 'package:appdalada/pages/chat/chat_page.dart';
 import 'package:appdalada/pages/home/home_page.dart';
 import 'package:appdalada/pages/login/login_page.dart';
-import 'package:appdalada/pages/user/user_register.dart';
+import 'package:appdalada/pages/user/user_register_apelido_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +25,7 @@ class _AuthCheckState extends State<AuthCheck> {
     } else if (auth.usuario == null) {
       return LoginPage();
     } else {
-      return UserRegister();
+      return UserRegisterApelidoPage();
     }
   }
 }

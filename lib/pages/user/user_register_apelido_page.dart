@@ -2,28 +2,41 @@
 
 import 'package:appdalada/core/app/app_colors.dart';
 import 'package:appdalada/pages/user/user_profile.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:appdalada/pages/user/user_register_nascimento_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/src/provider.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:appdalada/core/models/usuario.dart';
 import 'package:appdalada/core/service/auth/auth_firebase_service.dart';
+import 'package:provider/provider.dart';
 
-class UserRegister extends StatefulWidget {
-  const UserRegister({
+class UserRegisterApelidoPage extends StatefulWidget {
+  const UserRegisterApelidoPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  _UserRegisterState createState() => _UserRegisterState();
+  _UserRegisterApelidoPageState createState() =>
+      _UserRegisterApelidoPageState();
 }
 
-class _UserRegisterState extends State<UserRegister> {
-  final TextEditingController apelido = TextEditingController();
-  final format = DateFormat("dd-MM-yyyy");
+class _UserRegisterApelidoPageState extends State<UserRegisterApelidoPage> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _apelido = TextEditingController();
+
+  _onSubmit() {
+    AuthFirebaseService firebase =
+        Provider.of<AuthFirebaseService>(context, listen: false);
+    final isValid = _formKey.currentState!.validate();
+
+    if (isValid) {
+      firebase.firestore.collection('users').doc(firebase.usuario?.uid).set({
+        'apelido': _apelido.text,
+      });
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: (_) => UserRegisterNascimentoPage()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,23 +106,33 @@ class _UserRegisterState extends State<UserRegister> {
             ],
           ),
           SizedBox(height: 25),
-          Padding(
-            padding: const EdgeInsets.only(left: 40, right: 40),
-            child: Material(
-              borderRadius: BorderRadius.circular(10),
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  controller: apelido,
-                  style: TextStyle(
-                    fontSize: 22,
+          Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 40, right: 40),
+              child: Material(
+                borderRadius: BorderRadius.circular(10),
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: _apelido,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 22,
+                    ),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                    ),
+                    keyboardType: TextInputType.name,
+                    validator: (text) {
+                      if (text == null || text.isEmpty) {
+                        return 'Preencha o campo corretamente!';
+                      }
+
+                      return null;
+                    },
                   ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                  ),
-                  keyboardType: TextInputType.name,
                 ),
               ),
             ),
@@ -119,15 +142,7 @@ class _UserRegisterState extends State<UserRegister> {
             padding: EdgeInsets.all(24),
             child: GestureDetector(
               onTap: () {
-                firebase.firestore
-                    .collection('users')
-                    .doc(firebase.usuario?.uid)
-                    .set({
-                  'apelido': apelido.text,
-                });
-
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => UserProfilePage()));
+                _onSubmit();
               },
               child: Container(
                 decoration: BoxDecoration(
