@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:appdalada/core/app/app_colors.dart';
-import 'package:appdalada/pages/user/user_profile.dart';
+import 'package:appdalada/pages/user/user_profile_page.dart';
 import 'package:appdalada/pages/user/user_register_nascimento_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -1,6 +1,7 @@
 import 'package:appdalada/core/app/app_colors.dart';
 import 'package:appdalada/core/service/auth/auth_firebase_service.dart';
 import 'package:appdalada/pages/chat/chat_page.dart';
+import 'package:appdalada/pages/user/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,9 @@ class _UserRegisterSobrePageState extends State<UserRegisterSobrePage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => ChatPage(),
+          builder: (_) => UserProfilePage(
+            docRef: widget.docRef,
+          ),
         ),
       );
     }
