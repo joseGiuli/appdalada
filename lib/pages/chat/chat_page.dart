@@ -1,9 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors
 
 import 'package:appdalada/components/app_bar_chat_page.dart';
 import 'package:appdalada/core/app/app_colors.dart';
 import 'package:appdalada/core/service/auth/auth_firebase_service.dart';
+import 'package:appdalada/pages/chat/create_group.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/src/provider.dart';
 
 class ChatPage extends StatefulWidget {
@@ -20,12 +22,10 @@ class _ChatPageState extends State<ChatPage> {
     try {
       await context.read<AuthFirebaseService>().logout();
     } on AuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.message),
-          backgroundColor: Colors.red[400],
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+        backgroundColor: Colors.red[400],
+      ));
     }
   }
 
@@ -37,54 +37,33 @@ class _ChatPageState extends State<ChatPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Center(
+              child: Text(
+                'Ainda não possui nenhum \ngrupo? \nCrie um agora!',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontSize: 26,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w300,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
             IconButton(
               icon: const Icon(Icons.add_circle_sharp),
               iconSize: 45,
               color: AppColors.principal,
               onPressed: () {
-                setState(() {});
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CreateGroup(),
+                  ),
+                );
               },
-            ),
-            Padding(
-              padding: EdgeInsets.all(24),
-              child: ElevatedButton(
-                onPressed: logout,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.check),
-                    Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        'Logout',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        //currentIndex: paginaAtual,
-        // ignore: prefer_const_literals_to_create_immutables
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.comment),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Explorar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Conta',
-          ),
-        ],
-        onTap: (_) {},
       ),
     );
   }

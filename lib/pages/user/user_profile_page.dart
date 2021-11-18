@@ -1,11 +1,10 @@
+import 'package:appdalada/components/user_profile_widget.dart';
+import 'package:appdalada/core/service/auth/auth_firebase_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserProfilePage extends StatefulWidget {
-  final String? docRef;
-  const UserProfilePage({Key? key, required this.docRef}) : super(key: key);
-
   @override
   _UserProfilePageState createState() => _UserProfilePageState();
 }
@@ -13,9 +12,11 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   @override
   Widget build(BuildContext context) {
+    AuthFirebaseService firebase =
+        Provider.of<AuthFirebaseService>(context, listen: false);
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return FutureBuilder<DocumentSnapshot>(
-      future: users.doc(widget.docRef).get(),
+      future: users.doc(firebase.usuario!.uid).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -29,9 +30,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
-          return Text(
-            "Apelido ${data['apelido']}",
-            style: TextStyle(color: Colors.green),
+
+          return UserProfileWidget(
+            apelido: data['apelido'],
+            dataNascimento: data['data_nascimento'],
+            sobre: data['sobre'],
           );
         }
 

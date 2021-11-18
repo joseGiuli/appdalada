@@ -1,4 +1,3 @@
-import 'package:appdalada/core/models/usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ class AuthFirebaseService extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   User? usuario;
-  Usuario? user;
   bool isLoading = true;
 
   AuthFirebaseService() {

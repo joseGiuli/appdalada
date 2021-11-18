@@ -29,16 +29,15 @@ class _UserRegisterApelidoPageState extends State<UserRegisterApelidoPage> {
     final isValid = _formKey.currentState!.validate();
 
     if (isValid) {
-      final docRef = await firebase.firestore.collection('users').add({
+      firebase.firestore.collection('users').doc(firebase.usuario!.uid).set({
+        'uid': firebase.usuario!.uid,
         'apelido': _apelido.text,
       });
 
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => UserRegisterNascimentoPage(
-            docRef: docRef.id,
-          ),
+          builder: (_) => UserRegisterNascimentoPage(),
         ),
       );
     }

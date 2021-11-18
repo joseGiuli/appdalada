@@ -7,10 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class UserRegisterSobrePage extends StatefulWidget {
-  final String? docRef;
-  const UserRegisterSobrePage({Key? key, required this.docRef})
-      : super(key: key);
-
   @override
   _UserRegisterSobrePageState createState() => _UserRegisterSobrePageState();
 }
@@ -26,16 +22,14 @@ class _UserRegisterSobrePageState extends State<UserRegisterSobrePage> {
     final isValid = _formKey.currentState!.validate();
 
     if (isValid) {
-      firebase.firestore.collection('users').doc(widget.docRef).update({
+      firebase.firestore.collection('users').doc(firebase.usuario!.uid).update({
         'sobre': _sobre.text,
       });
 
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => UserProfilePage(
-            docRef: widget.docRef,
-          ),
+          builder: (_) => UserProfilePage(),
         ),
       );
     }
